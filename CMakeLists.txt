@@ -1,54 +1,84 @@
-cmake_minimum_required(VERSION 2.8.3)
-project(eskf)
-find_package(catkin REQUIRED COMPONENTS
-  roscpp
-  geometry_msgs
-  sensor_msgs
-  message_filters
-  message_generation
-  eigen_conversions
-  mavros_msgs
-)
+cmake_minimum_required(VERSION 3.5)
+project(state-estimation)
 
-find_package(cmake_modules)
+# Find dependencies
+find_package(ament_cmake REQUIRED)
+find_package(rclcpp REQUIRED)
+find_package(std_msgs REQUIRED)
+find_package(geometry_msgs REQUIRED)
+find_package(sensor_msgs REQUIRED)
+find_package(message_filters REQUIRED)
+# find_package(message_generation REQUIRED)
+find_package(eigen3_cmake_module REQUIRED)
 find_package(Eigen3 REQUIRED)
+find_package(mavros_msgs REQUIRED)
+find_package(nav_msgs REQUIRED)
+find_package(rosidl_default_generators REQUIRED)
 
-catkin_package(
-  CATKIN_DEPENDS message_runtime
-)
 
-# include headers
+# find_package(ament_cmake_auto REQUIRED)
+# ament_auto_find_build_dependencies()
+
+# rosidl_generate_interfaces(
+#   DEPENDENCIES geometry_msgs sensor_msgs std_msgs
+# )
+
+# Include directories
 include_directories(
-  ${catkin_INCLUDE_DIRS}
-  ${Eigen_INCLUDE_DIRS}
-  ${mavros_INCLUDE_DIRS}
-  include
   include/eskf
+  # ${catkin_INCLUDE_DIRS}
+  ${Eigen3_INCLUDE_DIRS}
+  ${mavros_INCLUDE_DIRS}
 )
 
-# build shared library
-add_library(ESKF
+# Create ament package
+ament_package()
+
+# Build shared library
+add_library(ESKF SHARED
   src/ESKF.cpp
 )
 
-set(RELEVANT_LIBRARIES
-  ESKF
-  ${catkin_LIBRARIES}
-  ${mavros_LIBRARIES}
-)
 
-# rigorous error checking
-add_definitions("-Wall -Werror -O3 -std=c++11")
 
-# build main filter
+# Build main filter
 add_executable(${PROJECT_NAME}
   src/eskf.cpp
   src/Node.cpp
 )
-target_link_libraries(${PROJECT_NAME} ${RELEVANT_LIBRARIES})
 
-# ensures messages are generated before hand
-add_dependencies(${PROJECT_NAME}
-  ${${PROJECT_NAME}_EXPORTED_TARGETS}
-  ${catkin_EXPORTED_TARGETS}
+# Link relevant libraries
+target_link_libraries(${PROJECT_NAME}
+ESKF
+${rclcpp_LIBRARIES}
+${std_msgs_LIBRARIES}
+${geometry_msgs_LIBRARIES}
+${sensor_msgs_LIBRARIES}
+${nav_msgs_LIBRARIES}
+${message_filters_LIBRARIES}
+${message_runtime_LIBRARIES}
+${Eigen3_LIBRARIES}
+${mavros_msgs_LIBRARIES}
+)
+
+# Install executable
+install(TARGETS ${PROJECT_NAME}
+  DESTINATION lib/${PROJECT_NAME}
+)
+
+# Install shared library
+install(TARGETS ESKF
+  ARCHIVE DESTINATION lib
+  LIBRARY DESTINATION lib
+  RUNTIME DESTINATION bin
+)
+
+# Install include directory
+install(DIRECTORY include/
+  DESTINATION include
+)
+
+# Install launch files if any
+install(DIRECTORY launch
+  DESTINATION share/${PROJECT_NAME}/
 )
