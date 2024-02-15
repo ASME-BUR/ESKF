@@ -53,8 +53,6 @@ add_library(eskf SHARED
 # ${Eigen3_LIBRARIES}
 # ${mavros_msgs_LIBRARIES}
 # )
-# target_link_libraries(eskf rclcpc std_msgs geometry_msgs sensor_msgs nav_msgs message_filters Eigen3 mavros_msgs)
-
 
 target_include_directories(eskf
   PUBLIC
