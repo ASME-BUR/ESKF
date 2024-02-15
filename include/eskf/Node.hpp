@@ -12,7 +12,7 @@
 #include <mavros_msgs/msg/optical_flow_rad.hpp>
 #include <mavros_msgs/msg/extended_state.hpp>
 #include <message_filters/subscriber.h>
-#include "ESKF.hpp"
+#include "eskf.hpp"
 
 namespace eskf {
 

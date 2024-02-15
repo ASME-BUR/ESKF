@@ -3,7 +3,7 @@
 namespace eskf
 {
 
-Node::Node():rclcpp::Node::Node("ESKF Node") {
+Node::Node():rclcpp::Node::Node("ESKF_Node") {
   RCLCPP_INFO(this->get_logger(),"Subscribing to imu.");
   subImu_ = this->create_subscription<sensor_msgs::msg::Imu>(
       "imu", 1000, std::bind(&Node::inputCallback, this, std::placeholders::_1));

@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <package>
-  <name>state-estimation</name>
+  <name>state_estimation</name>
   <version>0.0.1</version>
   <description>Error state kalman filter for position and attitude determination</description>
 
@@ -26,14 +26,14 @@
   <run_depend>roscpp</run_depend>
   <run_depend>sensor_msgs</run_depend>
   <run_depend>message_filters</run_depend>
-  <run_depend>message_runtime</run_depend>
   <run_depend>eigen_conversions</run_depend>
   <run_depend>mavros_msgs</run_depend>
 
   <buildtool_depend>rosidl_default_generators</buildtool_depend>
-<run_depend>rosidl_default_runtime</run_depend>
+  <run_depend>rosidl_default_runtime</run_depend>
 <!-- <member_of_group>rosidl_interface_packages</member_of_group> -->
   
   <export>
+    <build_type>ament_cmake</build_type>
   </export>
 </package>
