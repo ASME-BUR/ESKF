@@ -3,7 +3,10 @@
 namespace eskf
 {
 
-Node::Node():rclcpp::Node::Node("ESKF_Node") {
+Node::Node():rclcpp::Node("ESKF_Node") {
+  this->declare_parameter("fusion_mask", rclcpp::PARAMETER_INTEGER);
+  this->declare_parameter("publish_rate", rclcpp::PARAMETER_INTEGER);
+
   RCLCPP_INFO(this->get_logger(),"Subscribing to imu.");
   subImu_ = this->create_subscription<sensor_msgs::msg::Imu>(
       "imu", 1000, std::bind(&Node::inputCallback, this, std::placeholders::_1));
@@ -13,7 +16,7 @@ Node::Node():rclcpp::Node::Node("ESKF_Node") {
       "extended_state", 1, std::bind(&Node::extendedStateCallback, this, std::placeholders::_1));
 
   int fusion_mask = default_fusion_mask_;
-  fusion_mask = this->get_parameter("~fusion_mask").as_int();
+  fusion_mask = this->get_parameter("fusion_mask").as_int();
 
   if((fusion_mask & MASK_EV_POS) || (fusion_mask & MASK_EV_YAW) || (fusion_mask & MASK_EV_HGT)) {
     RCLCPP_INFO(this->get_logger(),"Subscribing to vision");
@@ -41,7 +44,7 @@ Node::Node():rclcpp::Node::Node("ESKF_Node") {
   pubPose_ = this->create_publisher<nav_msgs::msg::Odometry>("pose",1);
 
   int publish_rate = default_publish_rate_;
-  publish_rate = this->get_parameter("~publish_rate").as_int();
+  publish_rate = this->get_parameter("publish_rate").as_int();
 
   pubTimer_ = this->create_wall_timer(
       std::chrono::seconds(static_cast<int>(1.0/publish_rate)), std::bind(&Node::publishState, this));

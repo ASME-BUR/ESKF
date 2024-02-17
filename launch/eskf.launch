@@ -23,14 +23,14 @@
   <!-- RANGEFINDER topic to use -->
   <arg name="rangefinder_topic" default="/mavros/distance_sensor/hrlv_ez4_pub"/>
 
-  <node pkg="eskf" name="$(arg eskf_node)" type="eskf" output="screen">
-    <remap from="~imu" to="$(arg imu_topic)"/>
-    <remap from="~vision" to="$(arg vision_topic)"/>
-    <remap from="~gps" to="$(arg gps_topic)"/>
-    <remap from="~optical_flow" to="$(arg optical_flow_topic)"/>
-    <remap from="~mag" to="$(arg mag_topic)"/>
-    <remap from="~extended_state" to="$(arg extended_state_topic)"/>
-    <remap from="~rangefinder" to="$(arg rangefinder_topic)"/>
+  <node pkg="state_estimation" name="$(var eskf_node)" exec="eskf_node" output="screen">
+    <remap from="imu" to="$(var imu_topic)"/>
+    <remap from="vision" to="$(var vision_topic)"/>
+    <remap from="gps" to="$(var gps_topic)"/>
+    <remap from="optical_flow" to="$(var optical_flow_topic)"/>
+    <remap from="mag" to="$(var mag_topic)"/>
+    <remap from="extended_state" to="$(var extended_state_topic)"/>
+    <remap from="rangefinder" to="$(var rangefinder_topic)"/>
 
     <param name="fusion_mask" value="7"  type="int"/>
     <!-- 
