@@ -56,8 +56,8 @@ void Node::inputCallback(const sensor_msgs::msg::Imu::SharedPtr imuMsg){
   vec3 am = vec3(imuMsg->linear_acceleration.x, imuMsg->linear_acceleration.y, imuMsg->linear_acceleration.z); //  measured linear acceleration
 
   rclcpp::Time header_time;
+  header_time = rclcpp::Time(static_cast<int32_t>(imuMsg->header.stamp.sec), static_cast<uint32_t>(imuMsg->header.stamp.nanosec), RCL_SYSTEM_TIME);
   if (prevStampImu_.seconds()  != 0) {
-    header_time = rclcpp::Time(static_cast<int32_t>(imuMsg->header.stamp.sec), static_cast<uint32_t>(imuMsg->header.stamp.nanosec), RCL_SYSTEM_TIME);
     const double delta = (header_time - prevStampImu_).seconds();
 
     if (!init_) {
@@ -74,8 +74,8 @@ void Node::inputCallback(const sensor_msgs::msg::Imu::SharedPtr imuMsg){
 void Node::visionCallback(const geometry_msgs::msg::PoseWithCovarianceStamped::SharedPtr poseMsg){
 
   rclcpp::Time header_time;
+  header_time = rclcpp::Time(static_cast<int32_t>(poseMsg->header.stamp.sec), static_cast<uint32_t>(poseMsg->header.stamp.nanosec), RCL_SYSTEM_TIME);
   if(prevStampVisionPose_.seconds()  != 0) {
-    header_time = rclcpp::Time(static_cast<int32_t>(poseMsg->header.stamp.sec), static_cast<uint32_t>(poseMsg->header.stamp.nanosec), RCL_SYSTEM_TIME);
     const double delta = (header_time - prevStampImu_).seconds();
     // get measurements
     quat z_q = quat(poseMsg->pose.pose.orientation.w, poseMsg->pose.pose.orientation.x, poseMsg->pose.pose.orientation.y, poseMsg->pose.pose.orientation.z);
@@ -88,8 +88,8 @@ void Node::visionCallback(const geometry_msgs::msg::PoseWithCovarianceStamped::S
 
 void Node::gpsCallback(const nav_msgs::msg::Odometry::SharedPtr odomMsg){
   rclcpp::Time header_time;
+  header_time = rclcpp::Time(static_cast<int32_t>(odomMsg->header.stamp.sec), static_cast<uint32_t>(odomMsg->header.stamp.nanosec), RCL_SYSTEM_TIME);
   if (prevStampGpsPose_.seconds()  != 0) {
-    header_time = rclcpp::Time(static_cast<int32_t>(odomMsg->header.stamp.sec), static_cast<uint32_t>(odomMsg->header.stamp.nanosec), RCL_SYSTEM_TIME);
     const double delta = (header_time - prevStampImu_).seconds();
 
     // get gps measurements
@@ -104,8 +104,8 @@ void Node::gpsCallback(const nav_msgs::msg::Odometry::SharedPtr odomMsg){
 
 void Node::magCallback(const sensor_msgs::msg::MagneticField::SharedPtr magMsg){
   rclcpp::Time header_time;
+  header_time = rclcpp::Time(static_cast<int32_t>(magMsg->header.stamp.sec), static_cast<uint32_t>(magMsg->header.stamp.nanosec), RCL_SYSTEM_TIME);
   if (prevStampMagPose_.seconds()  != 0) {
-    header_time = rclcpp::Time(static_cast<int32_t>(magMsg->header.stamp.sec), static_cast<uint32_t>(magMsg->header.stamp.nanosec), RCL_SYSTEM_TIME);
     const double delta = (header_time - prevStampImu_).seconds();
 
     // get mag measurements
@@ -117,8 +117,8 @@ void Node::magCallback(const sensor_msgs::msg::MagneticField::SharedPtr magMsg){
 
 void Node::rangeFinderCallback(const sensor_msgs::msg::Range::SharedPtr rangeMsg){
   rclcpp::Time header_time;
+  header_time = rclcpp::Time(static_cast<int32_t>(rangeMsg->header.stamp.sec), static_cast<uint32_t>(rangeMsg->header.stamp.nanosec), RCL_SYSTEM_TIME);
   if (prevStampRangeFinderPose_.seconds() != 0) {
-    header_time = rclcpp::Time(static_cast<int32_t>(rangeMsg->header.stamp.sec), static_cast<uint32_t>(rangeMsg->header.stamp.nanosec), RCL_SYSTEM_TIME);
     const double delta = (header_time - prevStampImu_).seconds();
 
     // get rangefinder measurements
