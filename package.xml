@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <package>
-  <name>state_estimation</name>
+  <name>eskf</name>
   <version>0.0.1</version>
   <description>Error state kalman filter for position and attitude determination</description>
 
