@@ -1341,10 +1341,13 @@ namespace eskf {
   }
 
   void ESKF::controlExternalVisionFusion() {
+    printf("ESKF entering external vision fusion\n");
     if(vision_data_ready_) {
+      printf("2 ESKF entering external vision fusion\n");
       // Fuse available NED position data into the main filter
       if ((fusion_mask_ & MASK_EV_POS) && (!ev_pos_)) {
         // check for an external vision measurement that has fallen behind the fusion time horizon
+        printf("3 ESKF entering external vision fusion\n");
         if (time_last_imu_ - time_last_ext_vision_ < 2 * EV_MAX_INTERVAL) {
           ev_pos_ = true;
           printf("ESKF commencing external vision position fusion\n");

@@ -3,13 +3,13 @@
   <arg name="eskf_node" default="eskf"/>
 
   <!-- IMU topic to use -->
-  <arg name="imu_topic" default="/mavros/imu/data"/>
+  <arg name="imu_topic" default="/imu"/>
 
   <!-- MAG topic to use -->
   <arg name="mag_topic" default="/mavros/imu/mag"/>
 
   <!-- VISION topic to use -->
-  <arg name="vision_topic" default="/svo/pose"/>
+  <arg name="vision_topic" default="/zed/zed_node/pose_with_covariance"/>
 
   <!-- GPS topic to use -->
   <arg name="gps_topic" default="/mavros/global_position/local"/>
@@ -23,7 +23,7 @@
   <!-- RANGEFINDER topic to use -->
   <arg name="rangefinder_topic" default="/mavros/distance_sensor/hrlv_ez4_pub"/>
 
-  <node pkg="state_estimation" name="$(var eskf_node)" exec="eskf_node" output="screen">
+  <node pkg="eskf" name="$(var eskf_node)" exec="eskf_node" output="screen">
     <remap from="imu" to="$(var imu_topic)"/>
     <remap from="vision" to="$(var vision_topic)"/>
     <remap from="gps" to="$(var gps_topic)"/>
@@ -46,7 +46,7 @@
      512 - mag heading.
      -->
 
-     <param name="publish_rate" value="10" type="int"/>
+     <param name="publish_rate" value="1" type="int"/>
   </node>
 
 </launch>

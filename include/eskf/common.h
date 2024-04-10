@@ -4,7 +4,8 @@
 #include <Eigen/Core>
 #include <Eigen/Dense>
 
-#define EV_MAX_INTERVAL		2e5	///< Maximum allowable time interval between external vision system measurements (uSec)
+//nakul change 
+#define EV_MAX_INTERVAL		2e15	///< Maximum allowable time interval between external vision system measurements (uSec)
 #define GPS_MAX_INTERVAL	1e6	///< Maximum allowable time interval between external gps system measurements (uSec)
 #define OPTICAL_FLOW_INTERVAL	2e5	///< Maximum allowable time interval between optical flow system measurements (uSec)
 #define MAG_INTERVAL		2e5	///< Maximum allowable time interval between mag system measurements (uSec)
